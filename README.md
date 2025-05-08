@@ -40,151 +40,112 @@ Use the trained model to predict  for a new input value .
 
 ## PROGRAM
 
-### Name:Sangavi Suresh
+### Name: Bharathwaj R
 
-### Register Number: 212222230130
-
-```python
-import torch
-import torch.nn as nn  # Neural network module
-import numpy as np
-import matplotlib.pyplot as plt  # For plotting
-%matplotlib inline
-
-X = torch.linspace(1,70,70).reshape(-1,1)
-
-torch.manual_seed(71) # to obtain reproducible results
-e = torch.randint(-8,9,(70,1),dtype=torch.float)
-#print(e.sum())
-
-y = 2*X + 1 + e
-print(y.shape)
-```
-
-
+### Register Number: 212222240019
 
 ```
-plt.scatter(X.numpy(), y.numpy(),color='red')  # Scatter plot of data points
-plt.xlabel('x')
+import torch as t
+import torch.nn as nn
+import matplotlib.pyplot as plt
+
+t.manual_seed(71)
+X = t.linspace(1, 50, 50).reshape(-1, 1)
+e = t.randint(-8, 9, (50, 1),dtype=t.float)
+y = 2 * X + 1 + e
+
+plt.scatter(X.numpy(), y.numpy(),color = 'purple')
+plt.xlabel('X')
 plt.ylabel('y')
-plt.title('Generated Data for Linear Regression')
+plt.title('Generated Data for Linear REgression')
 plt.show()
-```
 
-
-```
-# Setting a manual seed for reproducibility
-torch.manual_seed(59)
-
-# Defining the model class
 class Model(nn.Module):
-    def __init__(self, in_features, out_features):
-        super().__init__()
-        self.linear = nn.Linear(in_features, out_features)
-        
-    def forward(self, x):
-        y_pred = self.linear(x)
-        return y_pred
+  def __init__(self,in_features,out_features):
+    super().__init__()
+    self.linear = nn.Linear(in_features, out_features)
 
-# Creating an instance of the model
-torch.manual_seed(59)
-model = Model(1, 1)
-print('Weight:', model.linear.weight.item())
-print('Bias:  ', model.linear.bias.item())
-```
+    def forward(self,x):
+      return self.linear(x)
 
+t.manual_seed(59)
+model = Model(1,1)
 
-```
-loss_function = nn.MSELoss()  # Mean Squared Error (MSE) loss
+initial_weight = model.linear.weight.item()
+initial_bias = model.linear.bias.item()
 
-optimizer = torch.optim.SGD(model.parameters(), lr=0.0001)  # Stochastic Gradient Descent
+print(f"Initial Weight: {initial_weight:.2f}")
+print(f"Initial Bias: {initial_bias:.2f}")
+print("\nName: Bharathwaj R")
+print("Register No: 212222240019")
+print(f'Initial Weight: {initial_weight:.8f}, Initial Bias: {initial_bias:.8f}\n')
 
-epochs = 50  # Number of training iterations
-losses = []  # List to store loss values
+loss_function = nn.MSELoss()
+optimizer = t.optim.SGD(model.parameters(), lr = 0.001)
 
-for epoch in range(1, epochs + 1):  # Start from 1 to 50
-    optimizer.zero_grad()  # Clear previous gradients
-    y_pred = model(X)  # Forward pass
-    loss = loss_function(y_pred, y)  # Compute loss
-    losses.append(loss.item())  # Store loss value
-    
-    loss.backward()  # Compute gradients
-    optimizer.step()  # Update weights
+epochs = 100
+losses = []
+for epoch in range(1, epochs + 1):
+    optimizer.zero_grad()
+    y_pred = model(X)
+    loss = loss_function(y_pred, y)
+    losses.append(loss.item())
 
-    # Print loss, weight, and bias for EVERY epoch (1 to 50)
-    print(f'epoch: {epoch:2}  loss: {loss.item():10.8f}  '
-          f'weight: {model.linear.weight.item():10.8f}  '
-          f'bias: {model.linear.bias.item():10.8f}')
+    loss.backward()
+    optimizer.step()
 
-```
+print(f'epoch: {epoch:2}  loss: {loss.item():10.8f} '
+      f'weight: {model.linear.weight.item():10.8f} '
+      f'bias: {model.linear.bias.item():10.8f}')
 
-
-```
-plt.plot(range(epochs), losses)
+plt.plot(range(epochs),losses,color='blue')
 plt.ylabel('Loss')
-plt.xlabel('epoch');
+plt.xlabel('Epochs')
+plt.title('Loss Curve')
 plt.show()
 
-```
+final_weight = model.linear.weight.item()
+final_bias = model.linear.bias.item()
+print("\nName: Bharathwaj R")
+print("Register No: 212222240019")
+print(f'Final Weight: {final_weight:.8f}, Final Bias: {final_bias:.8f}\n')
 
+x1 = t.tensor([X.min().item(),X.max().item()])
+y1 = x1*final_weigt + final_bias
 
-
-```
-# Automatically determine x-range
-x1 = torch.tensor([X.min().item(), X.max().item()])
-
-# Extract model parameters
-w1, b1 = model.linear.weight.item(), model.linear.bias.item()
-
-# Compute y1 (predicted values)
-y1 = x1 * w1 + b1
-
-```
-
-
-
-```
-# Print weight, bias, and x/y values
-print(f'Final Weight: {w1:.8f}, Final Bias: {b1:.8f}')
-print(f'X range: {x1.numpy()}')
-print(f'Predicted Y values: {y1.numpy()}')
-```
-
-
-
-```
-# Plot original data and best-fit line
-plt.scatter(X.numpy(), y.numpy(), label="Original Data")
-plt.plot(x1.numpy(), y1.numpy(), 'r', label="Best-Fit Line")
-plt.xlabel('x')
+plt.scatter(X.numpt(), y.numpy(),label = 'Original Data')
+plt.plot(x1.numpy(), y1.numpy(), 'r','label = Best Fit Line')
+plt.xlabel('X')
 plt.ylabel('y')
-plt.title('Trained Model: Best-Fit Line')
+plt.title('Trained Model: Best Fit Line')
 plt.legend()
 plt.show()
+
+x_new = t.tensor([[120.0]])
+y_new_pred = model(x_new).item()
+print("\nName: Bharathwaj R")
+print("Register No: 212222240019")
+print(f"\nPrediction for x = 120:  {y_new_pred:.8f}")
+
 ```
 
-
-
-
 ### Dataset Information
-Include screenshot of the generated data
-<img width="695" alt="Screenshot 2025-03-22 at 11 39 58 AM" src="https://github.com/user-attachments/assets/6a9d9a07-def0-48fe-a313-b6a2d0940d38" />
+![Screenshot 2025-04-24 091358](https://github.com/user-attachments/assets/9b0d8dc2-8276-4312-86fc-b31fcbd3e7dc)
+
+
+
 
 ### OUTPUT
-##### Training Loss Vs Iteration Plot
-
-<img width="545" alt="Screenshot 2025-03-22 at 11 37 47 AM" src="https://github.com/user-attachments/assets/024c5b4a-08a0-4875-aa59-7a527cc214c6" />
-
-#### Best Fit line plot
-<img width="696" alt="Screenshot 2025-03-22 at 11 38 28 AM" src="https://github.com/user-attachments/assets/6cbf87c2-9a34-4854-92be-da887af305e3" />
+### Training Loss Vs Iteration Plot
+![Screenshot 2025-04-24 091417](https://github.com/user-attachments/assets/9036669a-dd34-40b4-b6d5-717b8b9473ba)
 
 
+### Best Fit line plot
+![Screenshot 2025-04-24 091439](https://github.com/user-attachments/assets/e80ef14f-dc81-4e3a-8385-89565bd67b8d)
 
 
 ### New Sample Data Prediction
-
-##### Include your sample input and output here
-<img width="186" alt="Screenshot 2025-03-22 at 11 40 29 AM" src="https://github.com/user-attachments/assets/b84b61c1-b473-4d22-9c04-f8ee33a0ee76" />
+![Screenshot 2025-04-24 091454](https://github.com/user-attachments/assets/168b460b-faf8-4eb9-9965-7060dd1a22b7)
 
 
 ## RESULT
